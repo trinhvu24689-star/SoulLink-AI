@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace "com.soullink.ai"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    
+    // --- ✅ CẤU HÌNH JAVA 17 CHUẨN (Đã sửa lỗi xung đột) ---
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    
+    // 💡 Ghi chú: Đã xóa kotlinOptions vì dự án đang dùng Java thuần.
+    // -------------------------------------------------------
+
+    defaultConfig {
+        applicationId "com.soullink.ai"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+             // Tối ưu hóa đóng gói cho ứng dụng Web hiện đại
+             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied.")
+}
+
+// 🔥 TỰ ĐỘNG COPY VÀ ĐỔI TÊN THÀNH "SoulLink AI.apk"
+tasks.register('autoCopyApk', Copy) {
+    from 'build/outputs/apk/debug/app-debug.apk'
+    into '../../public'
+    rename { String fileName ->
+        return "SoulLink AI.apk"
+    }
+}
+
+project.afterEvaluate {
+    assembleDebug.finalizedBy(autoCopyApk)
+}

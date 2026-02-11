@@ -1,0 +1,7 @@
+{
+  "name": "SoulLink AI",
+  "description": "An advanced, deeply personal AI companion app allowing users to define their relationship (BFF, Partner, etc.) with a modern, trendy interface and multimodal capabilities.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
