@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ES2020"],
+    "outDir": "./dist",            // 👈 Quan trọng nhất: Nơi chứa file .js sau khi dịch
+    "rootDir": "./",               // Nơi lấy code .ts
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["server.ts"],        // Chỉ dịch file này
+  "exclude": ["node_modules"]
+}
