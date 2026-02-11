@@ -15,8 +15,15 @@ const io = new Server(httpServer, {
 // Fix lỗi kết nối Prisma 7
 const prisma = new PrismaClient();
 
-app.use(cors());
-app.use(express.json({ limit: '50mb' }));
+app.use(cors({
+    origin: '*', // Chấp nhận tất cả: Android, iOS, Windows, Web
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
+// Tăng giới hạn lên 200MB
+app.use(express.json({ limit: '200mb' }));
+app.use(express.urlencoded({ limit: '200mb', extended: true }));
 
 // ==========================================
 // 🛡️ 1. AUTH & LEGAL
