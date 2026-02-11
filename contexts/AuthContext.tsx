@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import axios from 'axios';
 import { User } from '../types';
 
-// Cấu hình IP máy Master (Backend)
-const API_URL = 'http://192.168.1.7:3000/api';
+// ✅ ĐỊA CHỈ TOÀN CẦU (Có https, có đuôi /api)
+const API_URL = 'soullink-ai.zeabur.app';
 
 interface AuthContextType {
   user: User | null;

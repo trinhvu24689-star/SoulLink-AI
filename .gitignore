@@ -22,3 +22,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables (Cực kỳ quan trọng để bảo mật mật khẩu Supabase)
+.env
+.env.local
+.env.production
+
+# Build outputs cho ứng dụng máy tính
+*.exe
+*.msi
+
+# Prisma generated files (Không cần đẩy lên Git)
+/soullink-backend/node_modules/.prisma
+
+# Cache đặc biệt của dự án
+temp-cache/
+dist_electron/

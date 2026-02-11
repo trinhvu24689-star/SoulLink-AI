@@ -24,18 +24,17 @@ import { Sparkles, Plus, Languages, ChevronDown, Lock, Phone, WifiOff } from 'lu
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
-// --- 👇 CHÈN ĐOẠN NÀY ĐỂ FIX LỖI KẾT NỐI TRÊN ĐIỆN THOẠI 👇 ---
+// --- 👇 FIX KẾT NỐI MẠNG LAN CHO ĐIỆN THOẠI 👇 ---
 import axios from 'axios';
 
-// Đây là IP máy tính của ck đã tìm thấy lúc nãy
+// IP máy tính (Backend) - Đảm bảo máy tính và điện thoại cùng wifi
 const SERVER_IP = "http://192.168.1.7:3000"; 
 
-// Ép Axios dùng IP này cho tất cả các dịch vụ (Shop, Auth, Global Chat...)
+// Cấu hình Axios mặc định
 axios.defaults.baseURL = SERVER_IP;
-
 console.log("🚀 SoulLink AI: Đã chuyển hướng kết nối về máy tính:", SERVER_IP);
-// -----------------------------------------------------------
-// --- FIX LỖI TS2307: Thêm ConnectionStatus để fix luôn lỗi TS7006 ---
+
+// --- FIX LỖI IMPORT CHO CAPACITOR NETWORK ---
 import { Network, ConnectionStatus } from '@capacitor/network'; 
 
 // Helper to get video duration from base64
@@ -99,7 +98,7 @@ const SoulLinkApp: React.FC = () => {
     setShowIntro(false);
   }, []);
 
-  // --- 2. TỰ ĐỘNG BẮT TRẠNG THÁI MẠNG ---
+  // --- 2. TỰ ĐỘNG BẮT TRẠNG THÁI MẠNG (ĐÃ FIX LỖI REMOVE) ---
   useEffect(() => {
       // Hàm kiểm tra ngay khi mở app
       const checkStatus = async () => {
@@ -108,15 +107,15 @@ const SoulLinkApp: React.FC = () => {
       };
       checkStatus();
 
-      // --- FIX LỖI remove() ở đây: Lưu vào một Promise ---
+      // Lưu Promise của listener vào biến
       const handlerPromise = Network.addListener('networkStatusChange', (status: ConnectionStatus) => {
           console.log('Network status changed', status);
           setIsOfflineMode(!status.connected);
       });
 
+      // Cleanup function chuẩn cho Capacitor
       return () => {
-          // --- FIX LỖI TS2339: Chờ Promise hoàn thành rồi mới gọi remove() ---
-          handlerPromise.then(h => h.remove());
+          handlerPromise.then(handler => handler.remove());
       };
   }, []);
 

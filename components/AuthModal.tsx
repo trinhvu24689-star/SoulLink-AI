@@ -68,8 +68,8 @@ const AuthModal: React.FC = () => {
 
   if (user) return null;
 
-  // Cấu hình URL Backend (Master nhớ thay đổi nếu IP khác)
-  const API_URL = 'http://192.168.1.7:3000/api';
+// ✅ ĐỊA CHỈ TOÀN CẦU
+const API_URL = 'soullink-ai.zeabur.app';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,7 +131,7 @@ const AuthModal: React.FC = () => {
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={18} />
               <input 
                 className="w-full bg-black/40 border border-white/5 rounded-2xl pl-12 pr-4 py-4 text-sm text-white outline-none focus:border-indigo-500/50 transition-all"
-                placeholder="Username nơ-ron..."
+                placeholder="Username tài khoản của bạn..."
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -143,7 +143,7 @@ const AuthModal: React.FC = () => {
               <input 
                 type={showPassword ? 'text' : 'password'}
                 className="w-full bg-black/40 border border-white/5 rounded-2xl pl-12 pr-12 py-4 text-sm text-white outline-none focus:border-indigo-500/50 transition-all"
-                placeholder="Mật mã Quantum..."
+                placeholder="Mật khẩu của bạn..."
                 value={pass}
                 onChange={(e) => setPass(e.target.value)}
                 required
@@ -186,7 +186,7 @@ const AuthModal: React.FC = () => {
               }}
               className="text-[10px] font-black text-slate-500 hover:text-indigo-400 uppercase tracking-[0.2em] transition-colors"
             >
-              {mode === 'login' ? "Chưa có linh hồn? Khởi tạo ngay" : "Đã có thực thể? Đồng bộ hóa"}
+              {mode === 'login' ? "Chưa có tài khoản? Đăng ký ngay" : "Đã có tài khoản? Đăng nhập"}
             </button>
           </div>
         </div>

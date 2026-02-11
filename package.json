@@ -2,11 +2,12 @@
   "name": "soullink-ai",
   "private": true,
   "version": "1.5.0",
-  "type": "module",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "build:exe": "tsc && vite build && electron-builder",
     "cap:add": "cap add android",
     "cap:sync": "cap sync",
     "cap:open": "cap open android"
@@ -31,9 +32,27 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.18",
+    "electron": "^40.2.1",
+    "electron-builder": "^26.7.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.4.2",
     "vite": "^5.1.5"
+  },
+  "build": {
+    "appId": "com.soullink.ai",
+    "productName": "SoulLink AI",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/favicon.ico"
+    }
   }
 }
